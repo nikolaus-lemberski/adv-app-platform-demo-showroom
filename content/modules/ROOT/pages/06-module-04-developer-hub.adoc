@@ -302,7 +302,7 @@ Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus Ap
 +
 [NOTE]
 ====
-**Presenter tip:** Confirm **Quarkus Application** appears under **Create** (`template:default/quarkus-app`). Do not use **Quarkus REST API** if it is still listed from an old catalog cache. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
+**Presenter tip:** Confirm **Quarkus Application** appears under **Create**. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
 ====
 
 . Click the **+** (plus) button and select the **Quarkus Application** template.
