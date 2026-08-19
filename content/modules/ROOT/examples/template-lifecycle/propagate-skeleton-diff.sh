@@ -3,7 +3,7 @@ set -euo pipefail
 
 #
 # Propagate a scoped skeleton diff to every downstream repo created from the
-# quarkus-rest-api template, as an alternative to the scaffolder-relation-processor
+# quarkus-app template, as an alternative to the scaffolder-relation-processor
 # plugin's full-repo-diff merge requests (see disable-automated-lifecycle.sh).
 #
 # The plugin always compares the *entire current* skeleton against the
@@ -32,7 +32,7 @@ set -euo pipefail
 #   ./propagate-skeleton-diff.sh --from-sha <sha> --to-sha <sha>
 #
 
-TEMPLATE_NAME="${TEMPLATE_NAME:-quarkus-rest-api}"
+TEMPLATE_NAME="${TEMPLATE_NAME:-quarkus-app}"
 RHDH_NAMESPACE="${RHDH_NAMESPACE:-rhdh}"
 DRY_RUN=false
 FROM_SHA=""

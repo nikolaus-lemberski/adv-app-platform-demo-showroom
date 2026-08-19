@@ -275,7 +275,7 @@ _Part 3 showed a developer consuming a golden path: one field, a feature branch,
 
 **Current state at Parasol:**
 
-* The **Quarkus REST API** template is the blessed starting point for new Java services: source repo, GitOps repo, pipeline, and catalog registration in one Create flow
+* The **Quarkus Application** template is the blessed starting point for new Java services: source repo, GitOps repo, pipeline, and catalog registration in one Create flow
 * Developers already customize those repos. The platform must propose updates, not overwrite them.
 * Until Developer Hub tracks `scaffoldedFrom` relationships, the platform team cannot answer "who is still on the vulnerable Quarkus BOM?" without a hunt
 
@@ -294,7 +294,7 @@ Software Templates in Developer Hub are versioned, Git-managed artifacts. Each s
 
 "We just watched a developer consume a golden path. That is half the story. Someone has to keep that path current. Suppose Quarkus ships a security fix tomorrow. Every new service should start on the patched BOM — and every service we already created from this template should get a reviewable change, not a chat thread and a ticket queue.
 
-Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus REST API** template for brand-new services — different from the feature-branch template we just used on Parasol Insurance. I will create one small service from it, then update the template the way we would for a CVE, and show you the merge request Developer Hub opens on that service."
+Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus Application** template for brand-new services — different from the feature-branch template we just used on Parasol Insurance. I will create one small service from it, then update the template the way we would for a CVE, and show you the merge request Developer Hub opens on that service."
 
 **What I do:**
 
@@ -302,17 +302,12 @@ Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus RE
 +
 [NOTE]
 ====
-**Presenter tip:** Confirm **Quarkus REST API** appears under **Create**. It is a catalog entity, not a live patch. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
+**Presenter tip:** Confirm **Quarkus Application** appears under **Create**. It is a catalog entity, not a live patch. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
 ====
 
-. Click the **+** (plus) button and select the **Quarkus REST API** template.
+. Click the **+** (plus) button and select the **Quarkus Application** template.
 +
-[NOTE]
-====
-Screenshots in this part were captured against an earlier template title. The live form is **Quarkus REST API**. Field names and the Create flow match.
-====
-+
-image::rhdh-lifecycle-create-quarkus.png[Developer Hub self-service wizard for creating a Quarkus REST API: Application Name, Owner, and Description,link=self,window=blank,align="center",width=700,title="Create a new service from the Quarkus REST API golden path"]
+image::rhdh-lifecycle-create-quarkus.png[Developer Hub self-service wizard for creating a Quarkus Application: Application Name, Owner, and Description,link=self,window=blank,align="center",width=700,title="Create a new service from the Quarkus Application golden path"]
 
 . Fill in the form:
 * **Application Name:** `claims-api` (if that name already exists, use `claims-api-2` or similar)
@@ -333,7 +328,7 @@ image::rhdh-lifecycle-scaffolder-run.png[Completed scaffolder run showing source
 
 . Click **Open in catalog** on the new `claims-api` component:
 * On **Overview**, point out ownership and the link back to the source repository
-* Show that the component is related to the **Quarkus REST API** template (`scaffoldedFrom: template:default/quarkus-rest-api`)
+* Show that the component is related to the **Quarkus Application** template (`scaffoldedFrom: template:default/quarkus-app`)
 * Optional: in GitLab, open `parasol/claims-api` and show the same field in `catalog-info.yaml`
 * "Developer Hub now knows this application was born from that template. That relationship is what makes a template update a fleet operation instead of a scavenger hunt."
 
@@ -341,15 +336,15 @@ image::rhdh-lifecycle-scaffolder-run.png[Completed scaffolder run showing source
 
 . Open the **`rhdh/rhdh-templates`** project — this is the Git-managed Software Template library, imported at cluster bootstrap. Use the Web IDE or the file editor:
 +
-* Edit `templates/quarkus-rest-api/skeleton/pom.xml` and bump the Quarkus platform version:
+* Edit `templates/quarkus-app/skeleton/pom.xml` and bump the Quarkus platform version:
 +
 [source,xml,role="copypaste"]
 ----
-<!-- was: 3.32.3 -->
-<quarkus.platform.version>3.33.0</quarkus.platform.version>
+<!-- was: 3.15.1 -->
+<quarkus.platform.version>3.16.0</quarkus.platform.version>
 ----
 +
-* Edit `templates/quarkus-rest-api/template.yaml` and bump the template version:
+* Edit `templates/quarkus-app/template.yaml` and bump the template version:
 +
 [source,yaml,role="copypaste"]
 ----
@@ -380,7 +375,7 @@ image::rhdh-lifecycle-template-upgrade-mr.png[GitLab merge request opened by sca
 
 **What they should notice:**
 
-* Creating from **Quarkus REST API** is a different golden path than onboarding a Parasol feature branch — new service, not a branch on an existing app
+* Creating from **Quarkus Application** is a different golden path than onboarding a Parasol feature branch — new service, not a branch on an existing app
 * The scaffolded component records `scaffoldedFrom`, so Developer Hub can find every consumer of the template
 * The platform engineer edited Git — `rhdh/rhdh-templates` — not a live ConfigMap on the cluster
 * The update arrives as a merge request, not a force-push. The application team reviews it.
@@ -393,13 +388,13 @@ image::rhdh-lifecycle-template-upgrade-mr.png[GitLab merge request opened by sca
 **If asked:**
 
 Q: "How does Developer Hub know which repositories to update?"::
-A: "Each scaffolded `catalog-info.yaml` sets `scaffoldedFrom: template:default/quarkus-rest-api`. The relation-processor plugin walks those catalog relationships, resolves each entity's source repository, diffs the current skeleton against the repo, and opens the merge request. No extra inventory."
+A: "Each scaffolded `catalog-info.yaml` sets `scaffoldedFrom: template:default/quarkus-app`. The relation-processor plugin walks those catalog relationships, resolves each entity's source repository, diffs the current skeleton against the repo, and opens the merge request. No extra inventory."
 
 Q: "Can this overwrite a team's customizations?"::
 A: "The default plugin compares the *current* skeleton to the *current* repo. If a team has edited files that also live in the skeleton — `pom.xml` is the usual example — those edits show up in the merge request next to the real template change. Always review before merging. Unresolved scaffolder placeholders and stripped Jinja conditionals can also appear. That is why this is a merge request, not an auto-merge."
 
 Q: "The merge request is noisy. Can we send only the lines that changed in the template?"::
-A: "Yes — that is the scoped-diff alternative, closer to how tools like `copier` or `cruft` update projects. The bundled plugin has no 'diff only what changed between two template versions' mode yet; it always diffs the live skeleton against the live repo. For a demo, two scripts in this showroom (`content/modules/ROOT/examples/template-lifecycle/`) stand in: `disable-automated-lifecycle.sh` turns off the plugin's own merge requests (and adds Argo CD `ignoreDifferences` so GitOps does not flip the flag back), then `propagate-skeleton-diff.sh` diffs the last two GitLab commits scoped to `templates/quarkus-rest-api/skeleton` and opens a merge request only where that patch applies cleanly."
+A: "Yes — that is the scoped-diff alternative, closer to how tools like `copier` or `cruft` update projects. The bundled plugin has no 'diff only what changed between two template versions' mode yet; it always diffs the live skeleton against the live repo. For a demo, two scripts in this showroom (`content/modules/ROOT/examples/template-lifecycle/`) stand in: `disable-automated-lifecycle.sh` turns off the plugin's own merge requests (and adds Argo CD `ignoreDifferences` so GitOps does not flip the flag back), then `propagate-skeleton-diff.sh` diffs the last two GitLab commits scoped to `templates/quarkus-app/skeleton` and opens a merge request only where that patch applies cleanly."
 +
 [source,bash,role="copypaste"]
 ----
