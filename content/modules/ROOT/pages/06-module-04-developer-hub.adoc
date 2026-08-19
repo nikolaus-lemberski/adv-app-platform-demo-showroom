@@ -373,6 +373,9 @@ metadata:
 image::rhdh-lifecycle-template-upgrade-mr.png[GitLab merge request opened by scaffolder-relation-processor showing the quarkus.platform.version bump in pom.xml,link=self,window=blank,align="center",width=700,title="Template upgrade merge request on the scaffolded application"]
 +
 * In Developer Hub, open the notification bell in the header. The entity owner gets a notification with a link to the merge request.
++
+image::rhdh-lifecycle-notification.png[Developer Hub unread notifications showing a template update is ready, with a link to the GitLab merge request,link=self,window=blank,align="center",width=700,title="Template update notification in Developer Hub"]
++
 * "The developer reviews this the same way they review any other change. Merge it, and the golden path has moved. Decline it, and the platform team sees who is carrying the old BOM on purpose."
 
 **What they should notice:**
