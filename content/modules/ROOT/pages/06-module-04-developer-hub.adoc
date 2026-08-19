@@ -302,7 +302,7 @@ Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus Ap
 +
 [NOTE]
 ====
-**Presenter tip:** Confirm **Quarkus Application** appears under **Create**. It is a catalog entity, not a live patch. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
+**Presenter tip:** Confirm **Quarkus Application** appears under **Create** (`template:default/quarkus-app`). Do not use **Quarkus REST API** if it is still listed from an old catalog cache. Do **not** pre-bump `backstage.io/template-version` before the demo. The plugin only opens a merge request when it sees the version *increase from a value it already cached*. If you bump before Developer Hub has processed `1.0.0`, the first version it sees becomes the baseline and nothing happens, silently.
 ====
 
 . Click the **+** (plus) button and select the **Quarkus Application** template.
@@ -310,12 +310,13 @@ Let me switch hats. I am the platform engineer. Parasol publishes a **Quarkus Ap
 image::rhdh-lifecycle-create-quarkus.png[Developer Hub self-service wizard for creating a Quarkus Application: Application Name, Owner, and Description,link=self,window=blank,align="center",width=700,title="Create a new service from the Quarkus Application golden path"]
 
 . Fill in the form:
-* **Application Name:** `claims-api` (if that name already exists, use `claims-api-2` or similar)
+* **Application Name:** `hello-quarkus` (if that name already exists, use `hello-quarkus-2` or similar)
 * **Owner:** select `group:default/developers`
+* **Description:** optional
 * **Image Organization:** leave as `parasol`
 . Click **Create** and wait for the scaffolder task to finish.
-* Fetch source skeleton, publish source to GitLab (`parasol/claims-api`)
-* Fetch GitOps manifests, publish to GitLab (`parasol/claims-api-gitops`)
+* Fetch source skeleton, publish source to GitLab (`parasol/hello-quarkus`)
+* Fetch GitOps manifests, publish to GitLab (`parasol/hello-quarkus-gitops`)
 * Create Argo CD resources, register the component in the catalog
 * "That is a new service, not a feature branch on Parasol. Source, GitOps, and catalog registration — the same golden-path idea, for greenfield work."
 +
@@ -326,10 +327,10 @@ image::rhdh-lifecycle-scaffolder-run.png[Completed scaffolder run showing source
 **Presenter tip:** Do not wait for the Tekton pipeline. The first git push can miss the webhook (the listener is registered after Argo CD syncs the build chart). Pipeline, ACS, and SBOM are Module 5. This part only needs a catalog entity that points back at the template.
 ====
 
-. Click **Open in catalog** on the new `claims-api` component:
+. Click **Open in catalog** on the new `hello-quarkus` component:
 * On **Overview**, point out ownership and the link back to the source repository
 * Show that the component is related to the **Quarkus Application** template (`scaffoldedFrom: template:default/quarkus-app`)
-* Optional: in GitLab, open `parasol/claims-api` and show the same field in `catalog-info.yaml`
+* Optional: in GitLab, open `parasol/hello-quarkus` and show the same field in `catalog-info.yaml`
 * "Developer Hub now knows this application was born from that template. That relationship is what makes a template update a fleet operation instead of a scavenger hunt."
 
 . Switch to the **platform engineer** browser. Open GitLab at {gitlab_url}[{gitlab_url}^] and log in as `{pe_user}` / `{password}`
@@ -366,7 +367,7 @@ metadata:
 **Presenter tip:** If no merge request appears after a refresh, bump the version once more (`1.1.0` → `1.1.1`) and commit again. The plugin must observe a live increase from a version it already cached. A log line `events backend not found` right after the plugin loads is expected and harmless — delivery stays in-process.
 ====
 
-. In GitLab, open **Merge requests** on `parasol/claims-api`. You should see a request named along the lines of `claims-api/template-upgrade-v1.1.0`, authored by the scaffolder relation processor, with the `pom.xml` Quarkus version diff.
+. In GitLab, open **Merge requests** on `parasol/hello-quarkus`. You should see a request named along the lines of `hello-quarkus/template-upgrade-v1.1.0`, authored by the scaffolder relation processor, with the `pom.xml` Quarkus version diff.
 +
 image::rhdh-lifecycle-template-upgrade-mr.png[GitLab merge request opened by scaffolder-relation-processor showing the quarkus.platform.version bump in pom.xml,link=self,window=blank,align="center",width=700,title="Template upgrade merge request on the scaffolded application"]
 +
@@ -428,11 +429,11 @@ In this module, you saw how Red Hat Developer Hub transforms the developer exper
 
 === Setting up Module 5
 
-Our developer still has a fully provisioned development environment on their Parasol feature branch, open in DevSpaces — that is the Part 3 workspace, not the `claims-api` service from Part 4. If you demonstrated Part 4, switch back to that feature-branch workspace. In Module 5, we will see how they use the Dependency Analytics plugin to identify an unnecessary dependency and push code through the secure build pipeline.
+Our developer still has a fully provisioned development environment on their Parasol feature branch, open in DevSpaces — that is the Part 3 workspace, not the `hello-quarkus` service from Part 4. If you demonstrated Part 4, switch back to that feature-branch workspace. In Module 5, we will see how they use the Dependency Analytics plugin to identify an unnecessary dependency and push code through the secure build pipeline.
 
 === Presenter transition
 
 [NOTE]
 ====
-**Presenter tip:** The transition to Module 5 should emphasize the shift from setup to development: "Our developer now has a fully provisioned environment on their feature branch. Let's see what happens when they start working on the code and the platform's security tooling catches a dependency issue." Leave the `claims-api` template-upgrade story aside; Module 5 continues on Parasol Insurance.
+**Presenter tip:** The transition to Module 5 should emphasize the shift from setup to development: "Our developer now has a fully provisioned environment on their feature branch. Let's see what happens when they start working on the code and the platform's security tooling catches a dependency issue." Leave the `hello-quarkus` template-upgrade story aside; Module 5 continues on Parasol Insurance.
 ====
