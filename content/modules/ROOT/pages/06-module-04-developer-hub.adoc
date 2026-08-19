@@ -329,11 +329,12 @@ image::rhdh-lifecycle-scaffolder-run.png[Completed scaffolder run showing source
 
 . Click **Open in catalog** on the new `hello-quarkus` component:
 * On **Overview**, point out ownership and the link back to the source repository
-* Show that the component is related to the **Quarkus Application** template (`scaffoldedFrom: template:default/quarkus-app`)
-* Optional: in GitLab, open `parasol/hello-quarkus` and show the same field in `catalog-info.yaml`
-* "Developer Hub now knows this application was born from that template. That relationship is what makes a template update a fleet operation instead of a scavenger hunt."
+* "The catalog has the new service. The pointer back to the template lives in Git — that is what the lifecycle plugin reads."
 
 . Switch to the **platform engineer** browser. Open GitLab at {gitlab_url}[{gitlab_url}^] and log in as `{pe_user}` / `{password}`
+
+. Open `parasol/hello-quarkus` and show `catalog-info.yaml`. Point out `spec.scaffoldedFrom: template:default/quarkus-app`.
+* "Developer Hub ingested that field from Git. That is how it knows this application was born from the Quarkus Application template, and how a template update becomes a fleet operation instead of a scavenger hunt."
 
 . Open the **`rhdh/rhdh-templates`** project — this is the Git-managed Software Template library, imported at cluster bootstrap. Use the Web IDE or the file editor:
 +
