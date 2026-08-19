@@ -368,13 +368,13 @@ metadata:
 **Presenter tip:** If no merge request appears after a refresh, bump the version once more (`1.1.0` → `1.1.1`) and commit again. The plugin must observe a live increase from a version it already cached. A log line `events backend not found` right after the plugin loads is expected and harmless — delivery stays in-process.
 ====
 
+. In Developer Hub, open the notification bell in the header. The entity owner gets a notification with a link to the merge request.
++
+image::rhdh-lifecycle-notification.png[Developer Hub unread notifications showing a template update is ready, with a link to the GitLab merge request,link=self,window=blank,align="center",width=700,title="Template update notification in Developer Hub"]
+
 . In GitLab, open **Merge requests** on `parasol/hello-quarkus`. You should see a request named along the lines of `hello-quarkus/template-upgrade-v1.1.0`, authored by the scaffolder relation processor, with the `pom.xml` Quarkus version diff.
 +
 image::rhdh-lifecycle-template-upgrade-mr.png[GitLab merge request opened by scaffolder-relation-processor showing the quarkus.platform.version bump in pom.xml,link=self,window=blank,align="center",width=700,title="Template upgrade merge request on the scaffolded application"]
-+
-* In Developer Hub, open the notification bell in the header. The entity owner gets a notification with a link to the merge request.
-+
-image::rhdh-lifecycle-notification.png[Developer Hub unread notifications showing a template update is ready, with a link to the GitLab merge request,link=self,window=blank,align="center",width=700,title="Template update notification in Developer Hub"]
 +
 * "The developer reviews this the same way they review any other change. Merge it, and the golden path has moved. Decline it, and the platform team sees who is carrying the old BOM on purpose."
 
@@ -383,8 +383,8 @@ image::rhdh-lifecycle-notification.png[Developer Hub unread notifications showin
 * Creating from **Quarkus Application** is a different golden path than onboarding a Parasol feature branch — new service, not a branch on an existing app
 * The scaffolded component records `scaffoldedFrom`, so Developer Hub can find every consumer of the template
 * The platform engineer edited Git — `rhdh/rhdh-templates` — not a live ConfigMap on the cluster
-* The update arrives as a merge request, not a force-push. The application team reviews it.
 * Notifications land in Developer Hub, next to the catalog, not in a side channel the developer might miss
+* The update arrives as a merge request, not a force-push. The application team reviews it.
 
 **Business value callout:**
 
