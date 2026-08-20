@@ -343,7 +343,7 @@ image::rhdh-lifecycle-scaffolder-run.png[Completed scaffolder run showing source
 [source,xml,role="copypaste"]
 ----
 <!-- was: 3.15.1 -->
-<quarkus.platform.version>3.16.0</quarkus.platform.version>
+<quarkus.platform.version>3.15.7</quarkus.platform.version>
 ----
 +
 * Edit `templates/quarkus-app/template.yaml` and bump the template version:
